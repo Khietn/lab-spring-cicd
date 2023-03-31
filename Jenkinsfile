@@ -1,20 +1,37 @@
 pipeline {
-    agent any
-
+    agent {
+        docker {
+            image 'maven:3.8.3-jdk-11'
+            args '-v /root/.m2:/root/.m2'
+        }
+    }
     stages {
         stage('Build') {
             steps {
-                echo 'Building..'
+                sh 'mvn clean package'
             }
         }
-        stage('Test') {
+        stage('Dockerize') {
+            agent {
+                docker {
+                    image 'openjdk:11-jre-slim'
+                    args '-p 8080:8080'
+                }
+            }
             steps {
-                echo 'Testing..'
+                sh 'cp target/my-spring-app.jar /app.jar'
+                sh 'docker build -t my-spring-app .'
             }
         }
         stage('Deploy') {
+            agent {
+                docker {
+                    image 'openjdk:11-jre-slim'
+                    args '-p 8080:8080'
+                }
+            }
             steps {
-                echo 'Deploying....'
+                sh 'docker run -d --name my-spring-app my-spring-app'
             }
         }
     }
