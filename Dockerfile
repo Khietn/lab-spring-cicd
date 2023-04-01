@@ -1,14 +1,12 @@
-FROM openjdk:11-jre-slim
-VOLUME /tmp
-EXPOSE 8888
-ARG JAR_FILE=target/springboot.0.1.jar
-ADD ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
-
-#FROM openjdk:11-jre-slim
-
-#COPY springboot-0.1.jar /app.jar
-
-#EXPOSE 8080
-
-#CMD ["java", "-jar", "/app.jar"]
+# Docker Build Maven Stage
+FROM maven:3-jdk-8-alpine AS build
+# Copy folder in docker
+WORKDIR /opt/app
+COPY ./ /opt/app
+RUN mvn clean install -DskipTests
+# Run spring boot in Docker
+FROM openjdk:8-jdk-alpine
+COPY --from=build /opt/app/target/*.jar app.jar
+ENV PORT 8081
+EXPOSE $PORT
+ENTRYPOINT ["java","-jar","-Xmx1024M","-Dserver.port=${PORT}","app.jar"]
