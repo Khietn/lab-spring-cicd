@@ -1,14 +1,14 @@
-#FROM openjdk:11
-#VOLUME /tmp
-#EXPOSE 8888
-#ARG JAR_FILE=target/springboot.0.1.jar
-#ADD ${JAR_FILE} app.jar
-#ENTRYPOINT ["java","-jar","/app.jar"]
-
 FROM openjdk:11-jre-slim
+VOLUME /tmp
+EXPOSE 8888
+ARG JAR_FILE=target/springboot.0.1.jar
+ADD ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
 
-COPY springboot-0.1.jar /app.jar
+#FROM openjdk:11-jre-slim
 
-EXPOSE 8080
+#COPY springboot-0.1.jar /app.jar
 
-CMD ["java", "-jar", "/app.jar"]
+#EXPOSE 8080
+
+#CMD ["java", "-jar", "/app.jar"]
