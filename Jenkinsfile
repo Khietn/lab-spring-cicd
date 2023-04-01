@@ -1,38 +1,56 @@
-pipeline {
-    agent {
-        docker {
-            image 'maven:3.8.3-jdk-11'
-            args '-v /root/.m2:/root/.m2'
-        }
+ode {
+    def WORKSPACE = "/var/lib/jenkins/workspace/springboot-deploy"
+    def dockerImageTag = "springboot-deploy${env.BUILD_NUMBER}"
+try{
+    notifyBuild('STARTED')
+    stage('Clone Repo') {
+        // for display purposes
+        // Get some code from a GitHub repository
+        git url: 'https://github.com/Khietn/lab-spring-cicd.git',
+            credentialsId: 'khietn',
+            branch: 'lab-pipeline'
+     }
+    stage('Build docker') {
+         dockerImage = docker.build("springboot-deploy:${env.BUILD_NUMBER}")
     }
-    stages {
-        stage('Build') {
-            steps {
-                sh 'mvn clean package'
-            }
-        }
-        stage('Dockerize') {
-            agent {
-                docker {
-                    image 'openjdk:11-jre-slim'
-                    args '-p 8080:8080'
-                }
-            }
-            steps {
-                sh 'cp target/my-spring-app.jar /app.jar'
-                sh 'docker build -t my-spring-app .'
-            }
-        }
-        stage('Deploy') {
-            agent {
-                docker {
-                    image 'openjdk:11-jre-slim'
-                    args '-p 8080:8080'
-                }
-            }
-            steps {
-                sh 'docker run -d --name my-spring-app my-spring-app'
-            }
-        }
+    stage('Deploy docker'){
+          echo "Docker Image Tag Name: ${dockerImageTag}"
+          sh "docker stop springboot-deploy || true && docker rm springboot-deploy || true"
+          sh "docker run --name springboot-deploy -d -p 8081:8081 springboot-deploy:${env.BUILD_NUMBER}"
     }
+}catch(e){
+    currentBuild.result = "FAILED"
+    throw e
+}finally{
+    notifyBuild(currentBuild.result)
+ }
+}
+
+
+def notifyBuild(String buildStatus = 'STARTED'){
+  
+  // build status of null means successful
+  buildStatus =  buildStatus ?: 'SUCCESSFUL'
+  
+  // Default values
+  def colorName = 'RED'
+  def colorCode = '#FF0000'
+  def now = new Date()
+  
+  // message
+  def subject = "${buildStatus}, Job: ${env.JOB_NAME} FRONTEND - Deployment Sequence: [${env.BUILD_NUMBER}] "
+  def summary = "${subject} - Check On: (${env.BUILD_URL}) - Time: ${now}"
+  def subject_email = "Spring boot Deployment"
+  def details = """<p>${buildStatus} JOB </p>
+    <p>Job: ${env.JOB_NAME} - Deployment Sequence: [${env.BUILD_NUMBER}] - Time: ${now}</p>
+    <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME}</a>"</p>"""
+  
+  // Email notification
+  emailext (
+     to: "khiet.nguyen2@gmail.com",
+     subject: subject_email,
+     body: details,
+     recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+  )
+    
 }
