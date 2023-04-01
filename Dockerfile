@@ -7,7 +7,7 @@
 
 FROM openjdk:11-jre-slim
 
-COPY app.jar /app.jar
+COPY springboot-0.1.jar /app.jar
 
 EXPOSE 8080
 
