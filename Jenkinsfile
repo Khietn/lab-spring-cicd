@@ -2,7 +2,6 @@ node {
     def WORKSPACE = "/var/lib/jenkins/workspace/springboot-deploy"
     def dockerImageTag = "springboot-deploy${env.BUILD_NUMBER}"
 try{
-    notifyBuild('STARTED')
     stage('Clone Repo') {
         // for display purposes
         // Get some code from a GitHub repository
@@ -22,7 +21,7 @@ try{
     currentBuild.result = "FAILED"
     throw e
 }finally{
-    notifyBuild(currentBuild.result)
+    
  }
 }
 
