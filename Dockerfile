@@ -6,7 +6,7 @@ COPY ./ /opt/app
 RUN apk add
 RUN mvn clean install -DskipTests
 # Run spring boot in Docker
-FROM openjdk:8-jdk-alpine
+FROM openjdk:17-oracle
 COPY --from=build /opt/app/target/*.jar app.jar
 ENV PORT 8081
 EXPOSE $PORT
