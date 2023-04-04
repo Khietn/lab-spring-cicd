@@ -2,7 +2,7 @@
 FROM maven:3-jdk-8-alpine AS build
 WORKDIR /app
 
-COPY pom.xml
+COPY pom.xml .
 
 COPY src ./src
 
