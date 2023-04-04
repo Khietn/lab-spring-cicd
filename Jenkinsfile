@@ -7,8 +7,8 @@ node {
             // Get some code from a GitHub repository
             git url: 'https://github.com/Khietn/lab-spring-cicd.git',
                 credentialsId: 'khietn',
-                branch: 'lab-pipeline',
-                sh 'mvn --version'
+                branch: 'lab-pipeline'
+            sh 'mvn --version'
             sh 'mvn clean install -DskipsTest'
          }
         stage('Build docker') {
