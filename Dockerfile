@@ -10,5 +10,5 @@ FROM openjdk:17-oracle
 VOLUME /tmp
 ARG JAR_FILE= target/springboot-0.1.jar
 ADD ${JAR_FILE} /springboot-0.1.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","/springboot-0.1.jar"]
 
