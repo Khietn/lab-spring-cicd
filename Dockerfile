@@ -8,6 +8,6 @@
 # Run spring boot in Docker
 FROM openjdk:17-oracle
 ARG JAR_FILE= target/springboot-0.1.jar
-COPY ${JAR_FILE} /app.jar
+ADD ${JAR_FILE} /app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 
