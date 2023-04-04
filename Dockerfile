@@ -4,7 +4,7 @@ FROM maven:3-jdk-8-alpine AS build
 WORKDIR /opt/app
 COPY ./ /opt/app
 RUN apk add
-RUN mvn clean install -DskipTests
+#RUN mvn clean install -DskipTests
 # Run spring boot in Docker
 FROM openjdk:17-oracle
 COPY --from=build /opt/app/target/*.jar app.jar
