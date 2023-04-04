@@ -1,11 +1,12 @@
 # Docker Build Maven Stage
-FROM maven:3-jdk-8-alpine AS build
+#FROM maven:3-jdk-8-alpine AS build
 # Copy folder in docker
-WORKDIR /opt/app
-COPY ./ /opt/app
-RUN mvn clean install
+#WORKDIR /opt/app
+#COPY ./ /opt/app
+#RUN mvn clean install
 # Run spring boot in Docker
-FROM eclipse-temurin:17-jdk-alpine
-ARG JAR_FILE
-COPY ${JAR_FILE} /app.jar
+FROM openjdk:17-oracle
+VOLUME /tmp
+ARG JAR_FILE=target/springboot-0.1.jar
+ADD ${JAR_FILE} /app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
