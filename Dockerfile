@@ -6,8 +6,8 @@ COPY ./ /opt/app
 RUN apk add
 #RUN mvn clean install -DskipTests
 # Run spring boot in Docker
-FROM openjdk:17-oracle
-COPY --from=build /opt/app/target/*.jar app.jar
-ENV PORT 8081
-EXPOSE $PORT
-ENTRYPOINT ["java","-jar","-Xmx1024M","-Dserver.port=${PORT}","app.jar"]
+FROM eclipse-temurin:17-jdk-alpine
+VOLUME /tmp
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
