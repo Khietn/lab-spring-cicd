@@ -38,10 +38,9 @@ spec:
           IMAGE_NAME = 'trada98/spring-boot'
           IMAGE_TAG = 'latest'  
       }
-        try {
-          withCredentials([DOCKER_HUB_CREDENTIALS]) {
-            sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
-          }
+        try {          
+           sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
+
           sh "docker push $IMAGE_NAME:$IMAGE_TAG"
         } catch (err) {
           error "Failed to push image: ${err}"
