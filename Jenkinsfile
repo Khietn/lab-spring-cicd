@@ -1,5 +1,5 @@
-// Rather than inline YAML, you could use: yaml: readTrusted('jenkins-pod.yaml')
-// Or, to avoid YAML: containers: [containerTemplate(name: 'maven', image: 'maven:3.6.3-jdk-8', command: 'sleep', args: 'infinity')]
+def POD_LABEL = 'maven'
+
 podTemplate(yaml: '''
 apiVersion: v1
 kind: Pod
@@ -22,26 +22,32 @@ spec:
       
       stage('Clone Repo') {
             // for display purposes
-            // Get some code from a GitHub repository
-            git url: 'https://github.com/Khietn/lab-spring-cicd.git',
-                credentialsId: 'khietn',
-                branch: 'lab-k8s'
+            checkout([$class: 'GitSCM',
+                      branches: [[name: 'lab-k8s']],
+                      doGenerateSubmoduleConfigurations: false,
+                      extensions: [],
+                      submoduleCfg: [],
+                      userRemoteConfigs: [[credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git']]
+                    ])
       }
       
       stage("Build Repo") {
         //Build on container
-        container('maven') {
+        container(POD_LABEL) {
             sh 'mvn -B -ntp -Dmaven.test.failure.ignore verify'
         }
         archiveArtifacts '**/target/*.jar' 
       }
 
       stage('Push to Repository') {
-        
-                withCredentials([DOCKER_HUB_CREDENTIALS]) {
-                    sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
-                }
-                sh "docker push $IMAGE_NAME:$IMAGE_TAG"
-        } 
+        try {
+          withCredentials([DOCKER_HUB_CREDENTIALS]) {
+            sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
+          }
+          sh "docker push $IMAGE_NAME:$IMAGE_TAG"
+        } catch (err) {
+          error "Failed to push image: ${err}"
+        }
+      } 
     }
 }
