@@ -13,12 +13,20 @@ spec:
     - infinity
 ''') {
     node(POD_LABEL) {
-        //Clone source
-        git branch: 'lab-k8s', credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git'
+      stage('Clone Repo') {
+            // for display purposes
+            // Get some code from a GitHub repository
+            git url: 'https://github.com/Khietn/lab-spring-cicd.git',
+                credentialsId: 'khietn',
+                branch: 'lab-k8s'
+      }
+      
+      stage("Build Repo") {
         //Build on container
         container('maven') {
             sh 'mvn -B -ntp -Dmaven.test.failure.ignore verify'
         }
-        archiveArtifacts '**/target/*.jar'
+        archiveArtifacts '**/target/*.jar' 
+      } 
     }
 }
