@@ -1,38 +1,24 @@
-pipeline {
-    agent {
-        docker {
-            image 'maven:3.8.3-jdk-11'
-            args '-v /root/.m2:/root/.m2'
+// Rather than inline YAML, you could use: yaml: readTrusted('jenkins-pod.yaml')
+// Or, to avoid YAML: containers: [containerTemplate(name: 'maven', image: 'maven:3.6.3-jdk-8', command: 'sleep', args: 'infinity')]
+podTemplate(yaml: '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: maven
+    image: maven:3.8.3-openjdk-17
+    command:
+    - sleep
+    args:
+    - infinity
+''') {
+    node(POD_LABEL) {
+        //Clone source
+        git branch: 'lab-k8s', credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git'
+        //Build on container
+        container('maven') {
+            sh 'mvn -B -ntp -Dmaven.test.failure.ignore verify'
         }
-    }
-    stages {
-        stage('Build') {
-            steps {
-                sh 'mvn clean package'
-            }
-        }
-        stage('Dockerize') {
-            agent {
-                docker {
-                    image 'openjdk:11-jre-slim'
-                    args '-p 8080:8080'
-                }
-            }
-            steps {
-                sh 'cp target/my-spring-app.jar /app.jar'
-                sh 'docker build -t my-spring-app .'
-            }
-        }
-        stage('Deploy') {
-            agent {
-                docker {
-                    image 'openjdk:11-jre-slim'
-                    args '-p 8080:8080'
-                }
-            }
-            steps {
-                sh 'docker run -d --name my-spring-app my-spring-app'
-            }
-        }
+        archiveArtifacts '**/target/*.jar'
     }
 }
