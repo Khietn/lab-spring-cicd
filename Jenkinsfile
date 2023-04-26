@@ -1,5 +1,3 @@
-def POD_LABEL = 'maven'
-
 podTemplate(yaml: '''
 apiVersion: v1
 kind: Pod
