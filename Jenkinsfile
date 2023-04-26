@@ -33,7 +33,7 @@ spec:
       
       stage("Build Repo") {
         //Build on container
-        container(POD_LABEL) {
+        container('maven') {
             sh 'mvn -B -ntp -Dmaven.test.failure.ignore verify'
         }
         archiveArtifacts '**/target/*.jar' 
