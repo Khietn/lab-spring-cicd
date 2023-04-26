@@ -34,7 +34,7 @@ spec:
 
       stage('Push to Repository') {
       environment {
-          DOCKER_HUB_CREDENTIALS = credentials('docker-hub')
+          DOCKER_HUB_CREDENTIALS = credentials('docker_hub')
           IMAGE_NAME = 'trada98/spring-boot'
           IMAGE_TAG = 'latest'  
       }
