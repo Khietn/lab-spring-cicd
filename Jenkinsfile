@@ -13,6 +13,13 @@ spec:
     - infinity
 ''') {
     node(POD_LABEL) {
+      
+      environment {
+          DOCKER_HUB_CREDENTIALS = credentials('docker-hub')
+          IMAGE_NAME = 'trada98/spring-boot'
+          IMAGE_TAG = 'latest'  
+      }
+      
       stage('Clone Repo') {
             // for display purposes
             // Get some code from a GitHub repository
@@ -27,6 +34,15 @@ spec:
             sh 'mvn -B -ntp -Dmaven.test.failure.ignore verify'
         }
         archiveArtifacts '**/target/*.jar' 
-      } 
+      }
+
+      stage('Push to Repository') {
+            steps {
+                withCredentials([DOCKER_HUB_CREDENTIALS]) {
+                    sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
+                }
+                sh "docker push $IMAGE_NAME:$IMAGE_TAG"
+            }
+        } 
     }
 }
