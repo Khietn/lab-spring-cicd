@@ -1,3 +1,8 @@
+      environment {
+          DOCKER_HUB_CREDENTIALS = credentials('docker-hub')
+          IMAGE_NAME = 'trada98/spring-boot'
+          IMAGE_TAG = 'latest'  
+      }
 podTemplate(yaml: '''
 apiVersion: v1
 kind: Pod
@@ -12,11 +17,6 @@ spec:
 ''') {
     node(POD_LABEL) {
       
-      environment {
-          DOCKER_HUB_CREDENTIALS = credentials('docker-hub')
-          IMAGE_NAME = 'trada98/spring-boot'
-          IMAGE_TAG = 'latest'  
-      }
       
       stage('Clone Repo') {
             // for display purposes
