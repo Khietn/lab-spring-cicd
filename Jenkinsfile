@@ -37,12 +37,11 @@ spec:
       }
 
       stage('Push to Repository') {
-            steps {
+        
                 withCredentials([DOCKER_HUB_CREDENTIALS]) {
                     sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
                 }
                 sh "docker push $IMAGE_NAME:$IMAGE_TAG"
-            }
         } 
     }
 }
