@@ -1,8 +1,4 @@
-      environment {
-          DOCKER_HUB_CREDENTIALS = credentials('docker-hub')
-          IMAGE_NAME = 'trada98/spring-boot'
-          IMAGE_TAG = 'latest'  
-      }
+
 podTemplate(yaml: '''
 apiVersion: v1
 kind: Pod
@@ -16,8 +12,7 @@ spec:
     - infinity
 ''') {
     node(POD_LABEL) {
-      
-      
+          
       stage('Clone Repo') {
             // for display purposes
             checkout([$class: 'GitSCM',
@@ -38,6 +33,11 @@ spec:
       }
 
       stage('Push to Repository') {
+      environment {
+          DOCKER_HUB_CREDENTIALS = credentials('docker-hub')
+          IMAGE_NAME = 'trada98/spring-boot'
+          IMAGE_TAG = 'latest'  
+      }
         try {
           withCredentials([DOCKER_HUB_CREDENTIALS]) {
             sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
