@@ -1,38 +1,28 @@
-pipeline {
-    agent {
-        docker {
-            image 'maven:3.8.3-jdk-11'
-            args '-v /root/.m2:/root/.m2'
+node {
+    def WORKSPACE = "/var/lib/jenkins/workspace/springboot-deploy"
+    def dockerImageTag = "springboot-deploy${env.BUILD_NUMBER}"
+    try{
+        stage('Clone Repo') {
+            // for display purposes
+            // Get some code from a GitHub repository
+            git url: 'https://github.com/Khietn/lab-spring-cicd.git',
+                credentialsId: 'khietn',
+                branch: 'lab-pipeline'
+            sh 'mvn --version'
+            sh 'mvn clean install -DskipsTest'
+         }
+        stage('Build docker') {
+             dockerImage = docker.build("springboot-deploy:${env.BUILD_NUMBER}")
         }
-    }
-    stages {
-        stage('Build') {
-            steps {
-                sh 'mvn clean package'
-            }
+        stage('Deploy docker'){
+              echo "Docker Image Tag Name: ${dockerImageTag}"
+              sh "docker stop springboot-deploy || true && docker rm springboot-deploy || true"
+              sh "docker run --name springboot-deploy -d -p 8081:8081 springboot-deploy:${env.BUILD_NUMBER}"
         }
-        stage('Dockerize') {
-            agent {
-                docker {
-                    image 'openjdk:11-jre-slim'
-                    args '-p 8080:8080'
-                }
-            }
-            steps {
-                sh 'cp target/my-spring-app.jar /app.jar'
-                sh 'docker build -t my-spring-app .'
-            }
-        }
-        stage('Deploy') {
-            agent {
-                docker {
-                    image 'openjdk:11-jre-slim'
-                    args '-p 8080:8080'
-                }
-            }
-            steps {
-                sh 'docker run -d --name my-spring-app my-spring-app'
-            }
-        }
+    }catch(e){
+        currentBuild.result = "FAILED"
+        throw e
+    }finally{
+    
     }
 }
