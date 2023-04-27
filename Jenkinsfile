@@ -1,4 +1,5 @@
-
+def DOCKER_HUB_CREDENTIALS_USR = "trada98"
+def DOCKER_HUB_CREDENTIALS_PSW = "Khiet123!@#"
 podTemplate(yaml: '''
 apiVersion: v1
 kind: Pod
