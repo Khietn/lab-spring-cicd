@@ -40,9 +40,7 @@ spec:
           IMAGE_TAG = 'latest'  
       }
         try {          
-          sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
-
-          sh "docker push $IMAGE_NAME:$IMAGE_TAG"
+          sh "ctr images push docker.io/library/$IMAGE_NAME:$IMAGE_TAG"
         } catch (err) {
           error "Failed to push image: ${err}"
         }
