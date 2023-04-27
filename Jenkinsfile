@@ -1,5 +1,7 @@
 def DOCKER_HUB_CREDENTIALS_USR = "trada98"
 def DOCKER_HUB_CREDENTIALS_PSW = "Khiet123!@#"
+def IMAGE_NAME = "spring-boot"
+def IMAGE_TAG = "latest"
 podTemplate(yaml: '''
 apiVersion: v1
 kind: Pod
@@ -40,7 +42,7 @@ spec:
           IMAGE_TAG = 'latest'  
       }
         try {          
-          sh "ctr images push docker.io/library/$IMAGE_NAME:$IMAGE_TAG"
+          sh "ctr images push docker.io/library/${IMAGE_NAME}:${IMAGE_TAG}"
         } catch (err) {
           error "Failed to push image: ${err}"
         }
