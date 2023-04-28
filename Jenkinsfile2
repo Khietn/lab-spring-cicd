@@ -1,21 +1,20 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'maven:3.9.0-eclipse-temurin-11'
+            args '-v /root/.m2:/root/.m2'
+        }
+    }
     stages {
         stage('Build') {
             steps {
-                 // for display purposes
-              // Get some code from a GitHub repository
-              git url: 'https://github.com/Khietn/lab-spring-cicd.git',
-                  credentialsId: 'khietn',
-                  branch: 'lab-pipeline'
-              sh 'mvn --version'
-              sh 'mvn clean install -DskipsTest'
+                sh 'mvn -B -DskipTests clean package'
             }
         }
-        stage('Build Docker') {
+        stage('Test') { 
             steps {
-              sh "docker build -t springboot-deploy:${env.BUILD_NUMBER}"
+                sh 'mvn clean install -DskipsTest' 
             }
         }
-     }
-} 
+    }
+}
