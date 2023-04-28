@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    tools {
+        maven "MAVEN"
+        jdk "JDK"
+    }
+    stages {
+        stage('Initialize'){
+            steps{
+                echo "PATH = ${M2_HOME}/bin:${PATH}"
+                echo "M2_HOME = /opt/maven"
+            }
+        }
+        stage('Build') {
+            steps {
+                 // for display purposes
+              // Get some code from a GitHub repository
+              git url: 'https://github.com/Khietn/lab-spring-cicd.git',
+                  credentialsId: 'khietn',
+                  branch: 'lab-pipeline'
+              sh 'mvn --version'
+              sh 'mvn clean install -DskipsTest'
+            }
+        }
+        stage('Build Docker') {
+            steps {
+              sh "docker build -t springboot-deploy:${env.BUILD_NUMBER}"
+            }
+        }
+     }
+    post {
+       always {
+          junit(
+        allowEmptyResults: true,
+        testResults: '*/test-reports/.xml'
+      )
+      }
+   } 
+}
