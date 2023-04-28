@@ -1,6 +1,8 @@
 node {
     def WORKSPACE = "/var/lib/jenkins/workspace/springboot-deploy"
     def dockerImageTag = "springboot-deploy${env.BUILD_NUMBER}"
+	def mvnHome = tool 'maven-3.9.1' //Install Maven plugin
+
     try{
         stage('Clone Repo') {
             // for display purposes
@@ -8,6 +10,8 @@ node {
             git url: 'https://github.com/Khietn/lab-spring-cicd.git',
                 credentialsId: 'khietn',
                 branch: 'lab-pipeline'
+
+	      sh "'${mvnHome}/bin/mvn' clean install"
          }
         stage('Build docker') {
             dockerImage = docker.build("springboot-deploy:${env.BUILD_NUMBER}") //Docker build with docker cloud
