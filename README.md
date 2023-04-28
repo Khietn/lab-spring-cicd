@@ -11,3 +11,6 @@ Tài liệu tham khảo
 Cài socat: https://stackoverflow.com/questions/47709208/how-to-find-docker-host-uri-to-be-used-in-jenkins-docker-plugin
 
 Pipeline: https://www.linkedin.com/pulse/simple-guide-devops-cicd-jenkins-pipelines-docker-ramos-da-silva/
+
+
+https://www.youtube.com/watch?v=99DddJiH7lM
