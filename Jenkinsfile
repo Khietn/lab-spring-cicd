@@ -8,8 +8,6 @@ node {
             git url: 'https://github.com/Khietn/lab-spring-cicd.git',
                 credentialsId: 'khietn',
                 branch: 'lab-pipeline'
-            sh 'mvn --version'
-            sh 'mvn clean install -DskipsTest'
          }
         stage('Build docker') {
             dockerImage = docker.build("springboot-deploy:${env.BUILD_NUMBER}") //Docker build with docker cloud
