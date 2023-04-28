@@ -2,7 +2,7 @@ node {
     def WORKSPACE = "/var/lib/jenkins/workspace/springboot-deploy"
     def dockerImageTag = "springboot-deploy${env.BUILD_NUMBER}"
     try{
-        tools {
+        tool {
             maven 'Maven 3.9.1'
         }
         stage('Clone Repo') {
