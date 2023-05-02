@@ -50,8 +50,21 @@ podTemplate(yaml: '''
         sh 'mvn -B -ntp clean package -DskipTests'
     }
     container('docker') {
-      sh 'docker version'
-      sh 'docker build -t spring-boot:latest .'
+      stage('Build image') {
+          sh 'docker version'
+          sh 'docker build -t spring-boot:latest .'
+      }
+      
+      stage('Push Docker image to Docker Hub') {
+      environment {
+        DOCKER_HUB_USER = 'trada98'
+        DOCKER_HUB_PASSWORD ='Khiet!@#123'
+      }
+      steps {
+        sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD'
+        sh 'docker push spring-boot:latest'
+      }
+    }
     }
   }
 }
