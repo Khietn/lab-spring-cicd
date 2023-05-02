@@ -41,7 +41,7 @@ podTemplate(yaml: '''
                       userRemoteConfigs: [[credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git']]
                     ])
     container('docker') {
-      sh 'docker version''
+      sh 'docker version'
       sh 'docker build -t spring-boot:latest .'
     }
   }
