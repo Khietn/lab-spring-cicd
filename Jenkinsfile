@@ -35,7 +35,12 @@ podTemplate(yaml: '''
                     mountPath: /var/run
 ''') {
   node(POD_LABEL) {
-    writeFile file: 'Dockerfile', text: 'FROM scratch'
+    checkout([$class: 'GitSCM',
+                      branches: [[name: 'lab-k8s']],
+                      doGenerateSubmoduleConfigurations: false,
+                      extensions: [],
+                      submoduleCfg: [],
+                      userRemoteConfigs: [[credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git']]
     container('docker') {
       sh 'docker version && DOCKER_BUILDKIT=1 docker build --progress plain -t testing .'
     }
