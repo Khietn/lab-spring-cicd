@@ -49,9 +49,9 @@ podTemplate(yaml: '''
     container('maven') {
         sh 'mvn -B -ntp clean package -DskipTests'
     }
-//     container('docker') {
-//       sh 'docker version'
-//       sh 'docker build -t spring-boot:latest .'
-//     }
+    container('docker') {
+      sh 'docker version'
+      sh 'docker build -t spring-boot:latest .'
+    }
   }
 }
