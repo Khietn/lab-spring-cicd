@@ -22,6 +22,7 @@ podTemplate(yaml: '''
 ''') {
   node(POD_LABEL) {
     stage('Build Docker image') {
+        sh 'sudo systemctl status docker'
         checkout([$class: 'GitSCM',
                       branches: [[name: 'lab-k8s']],
                       doGenerateSubmoduleConfigurations: false,
