@@ -52,7 +52,7 @@ podTemplate(yaml: '''
     container('docker') {
       stage('Build image') {
           sh 'docker version'
-          sh 'docker build -t spring-boot:latest .'
+          sh 'docker build -t trada98/spring-boot:latest .'
       }
       
       stage('Push Docker image to Docker Hub') {
