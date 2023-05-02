@@ -60,10 +60,8 @@ podTemplate(yaml: '''
         DOCKER_HUB_USER = 'trada98'
         DOCKER_HUB_PASSWORD ='Khiet!@#123'
       }
-      step {
         sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD'
         sh 'docker push spring-boot:latest'
-      }
     }
     }
   }
