@@ -40,7 +40,7 @@ podTemplate(yaml: '''
                       doGenerateSubmoduleConfigurations: false,
                       extensions: [],
                       submoduleCfg: [],
-                      userRemoteConfigs: [[credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git']]
+                      userRemoteConfigs: [[credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git']])
     container('docker') {
       sh 'docker version && DOCKER_BUILDKIT=1 docker build --progress plain -t testing .'
     }
