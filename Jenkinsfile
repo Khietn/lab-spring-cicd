@@ -57,8 +57,15 @@ podTemplate(yaml: '''
       
       stage('Push Docker image to Docker Hub') {
         withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-          sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD'
-          sh 'docker push spring-boot:latest'
+           try {
+              sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD'
+              sh 'docker push trada98/spring-boot:latest'
+            } catch (err) {
+              echo "Failed to push Docker image: ${err}"
+              currentBuild.result = 'FAILURE'
+            } finally {
+              sh 'docker logout'
+            }
         }
       }
     }
