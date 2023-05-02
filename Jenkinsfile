@@ -12,27 +12,27 @@ spec:
 ''') {
     node(POD_LABEL) {
           
-      stage('Clone Repo') {
-            // for display purposes
-            checkout([$class: 'GitSCM',
-                      branches: [[name: 'lab-k8s']],
-                      doGenerateSubmoduleConfigurations: false,
-                      extensions: [],
-                      submoduleCfg: [],
-                      userRemoteConfigs: [[credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git']]
-                    ])
-      }
+//       stage('Clone Repo') {
+//             // for display purposes
+//             checkout([$class: 'GitSCM',
+//                       branches: [[name: 'lab-k8s']],
+//                       doGenerateSubmoduleConfigurations: false,
+//                       extensions: [],
+//                       submoduleCfg: [],
+//                       userRemoteConfigs: [[credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git']]
+//                     ])
+//       }
       
-      stage("Build Repo") {
-        //Build on container
-        container('maven') {
-            sh 'mvn -B -ntp -Dmaven.test.failure.ignore verify'
-        }
-        archiveArtifacts '**/target/*.jar' 
-      }
+//       stage("Build Repo") {
+//         //Build on container
+//         container('maven') {
+//             sh 'mvn -B -ntp -Dmaven.test.failure.ignore verify'
+//         }
+//         archiveArtifacts '**/target/*.jar' 
+//       }
 
       stage("Build image") {
-        sh 'docker build -t spring-boot:latest .'
+        sh 'ctr images ls'
       }
       /*stage('Push to Repository') {
         environment {
