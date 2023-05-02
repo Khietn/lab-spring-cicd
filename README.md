@@ -1,2 +1,4 @@
 # lab-spring-cicd
-c
+
+
+Để chạy, cần config kubernetes plugin để tạo agent, thêm IP svc vô tunnel 
