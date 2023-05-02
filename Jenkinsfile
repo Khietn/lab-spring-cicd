@@ -31,19 +31,22 @@ spec:
         archiveArtifacts '**/target/*.jar' 
       }
 
-      stage('Push to Repository') {
-      environment {
-          DOCKER_HUB_CREDENTIALS = credentials('docker_hub')
-          IMAGE_NAME = 'trada98/spring-boot'
-          IMAGE_TAG = 'latest'  
+      stage("Build image") {
+        sh 'docker build -t spring-boot:latest .'
       }
-        try {          
-          sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
-
-          sh "docker push $IMAGE_NAME:$IMAGE_TAG"
-        } catch (err) {
-          error "Failed to push image: ${err}"
+      /*stage('Push to Repository') {
+        environment {
+            DOCKER_HUB_CREDENTIALS = credentials('docker_hub')
+            IMAGE_NAME = 'trada98/spring-boot'
+            IMAGE_TAG = 'latest'  
         }
-      } 
+          try {          
+            sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
+
+            sh "docker push $IMAGE_NAME:$IMAGE_TAG"
+          } catch (err) {
+            error "Failed to push image: ${err}"
+          }
+       } */
     }
 }
