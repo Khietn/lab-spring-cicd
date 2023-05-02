@@ -36,7 +36,7 @@ podTemplate(yaml: '''
 ''') {
   node(POD_LABEL) {
    checkout([$class: 'GitSCM',
-                      branches: [[name: 'lab-k8s']],
+                      branches: [[name: '*/lab-k8s']],
                       doGenerateSubmoduleConfigurations: false,
                       userRemoteConfigs: [[credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git']]
                     ])
