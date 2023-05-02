@@ -56,8 +56,8 @@ podTemplate(yaml: '''
       }
       
       stage('Push Docker image to Docker Hub') {
-        withCredentials([string(credentialsId: 'docker-hub', variable: 'DOCKER_HUB_CREDENTIALS')]) {
-          sh 'docker login -u $DOCKER_HUB_CREDENTIALS_USR -p $DOCKER_HUB_CREDENTIALS_PSW'
+        withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+          sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD'
           sh 'docker push spring-boot:latest'
         }
       }
