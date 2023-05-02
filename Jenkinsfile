@@ -20,9 +20,6 @@ podTemplate(yaml: '''
                   - sleep
                   args:
                   - 99d
-                  volumeMounts:
-                  - name: maven-repo
-                    mountPath: /root/.m2/repository
                 - name: docker
                   image: docker:19.03.1
                   readinessProbe:
