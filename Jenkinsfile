@@ -1,5 +1,5 @@
 podTemplate(containers: [
-  containerTemplate(name: 'maven', image: 'maven:3.8.1-jdk-8', command: 'sleep', args: '99d')
+  containerTemplate(name: 'maven', image: 'maven:3.8.3-openjdk-17', command: 'sleep', args: '99d')
   ], volumes: [
   persistentVolumeClaim(mountPath: '/root/.m2/repository', claimName: 'maven-repo', readOnly: false)
   ]) {
