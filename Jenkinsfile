@@ -1,52 +1,37 @@
+/*
+“Docker-outside-of-Docker”: runs a Docker-based build by connecting a Docker client inside the pod to the host daemon.
+*/
 podTemplate(yaml: '''
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: maven
-    image: maven:3.8.3-openjdk-17
-    command:
-    - sleep
-    args:
-    - infinity
+              apiVersion: v1
+              kind: Pod
+              spec:
+                containers:
+                - name: docker
+                  image: docker:19.03.1
+                  command:
+                  - sleep
+                  args:
+                  - 99d
+                  volumeMounts:
+                  - name: dockersock
+                    mountPath: /var/run/docker.sock
+                volumes:
+                - name: dockersock
+                  hostPath:
+                    path: /var/run/docker.sock
 ''') {
-    node(POD_LABEL) {
-          
-//       stage('Clone Repo') {
-//             // for display purposes
-//             checkout([$class: 'GitSCM',
-//                       branches: [[name: 'lab-k8s']],
-//                       doGenerateSubmoduleConfigurations: false,
-//                       extensions: [],
-//                       submoduleCfg: [],
-//                       userRemoteConfigs: [[credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git']]
-//                     ])
-//       }
-      
-//       stage("Build Repo") {
-//         //Build on container
-//         container('maven') {
-//             sh 'mvn -B -ntp -Dmaven.test.failure.ignore verify'
-//         }
-//         archiveArtifacts '**/target/*.jar' 
-//       }
-
-      stage("Build image") {
-        sh 'ctr images ls'
+  node(POD_LABEL) {
+    stage('Build Docker image') {
+        checkout([$class: 'GitSCM',
+                      branches: [[name: 'lab-k8s']],
+                      doGenerateSubmoduleConfigurations: false,
+                      extensions: [],
+                      submoduleCfg: [],
+                      userRemoteConfigs: [[credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git']]
+                    ])
+      container('docker') {
+        sh 'docker build -t khietn/spring-boot:latest .'
       }
-      /*stage('Push to Repository') {
-        environment {
-            DOCKER_HUB_CREDENTIALS = credentials('docker_hub')
-            IMAGE_NAME = 'trada98/spring-boot'
-            IMAGE_TAG = 'latest'  
-        }
-          try {          
-            sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
-
-            sh "docker push $IMAGE_NAME:$IMAGE_TAG"
-          } catch (err) {
-            error "Failed to push image: ${err}"
-          }
-       } */
     }
+  }
 }
