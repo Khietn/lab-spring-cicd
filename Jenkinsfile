@@ -60,6 +60,7 @@ podTemplate(yaml: '''
           sh 'docker login -u $DOCKER_HUB_CREDENTIALS_USR -p $DOCKER_HUB_CREDENTIALS_PSW'
           sh 'docker push spring-boot:latest'
         }
+      }
     }
   }
 }
