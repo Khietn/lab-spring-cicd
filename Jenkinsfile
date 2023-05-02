@@ -22,7 +22,6 @@ podTemplate(yaml: '''
 ''') {
   node(POD_LABEL) {
     stage('Build Docker image') {
-        sh 'sudo systemctl status docker'
         checkout([$class: 'GitSCM',
                       branches: [[name: 'lab-k8s']],
                       doGenerateSubmoduleConfigurations: false,
@@ -31,6 +30,7 @@ podTemplate(yaml: '''
                       userRemoteConfigs: [[credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git']]
                     ])
       container('docker') {
+                sh 'systemctl status docker'
         sh 'sudo docker build -t khietn/spring-boot:latest .'
       }
     }
