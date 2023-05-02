@@ -14,6 +14,15 @@ podTemplate(yaml: '''
                 - name: docker-socket
                   emptyDir: {}
                 containers:
+                - name: maven
+                  image: maven:3.8.1-jdk-8
+                  command:
+                  - sleep
+                  args:
+                  - 99d
+                  volumeMounts:
+                  - name: maven-repo
+                    mountPath: /root/.m2/repository
                 - name: docker
                   image: docker:19.03.1
                   readinessProbe:
@@ -40,9 +49,12 @@ podTemplate(yaml: '''
                       doGenerateSubmoduleConfigurations: false,
                       userRemoteConfigs: [[credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git']]
                     ])
-    container('docker') {
-      sh 'docker version'
-      sh 'docker build -t spring-boot:latest .'
+    container('maven') {
+        sh 'mvn -B -ntp clean package -DskipTests'
     }
+//     container('docker') {
+//       sh 'docker version'
+//       sh 'docker build -t spring-boot:latest .'
+//     }
   }
 }
