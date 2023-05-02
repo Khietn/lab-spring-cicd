@@ -1,9 +1,9 @@
 # Docker Build Maven Stage
-FROM maven:3.8.3-openjdk-17 AS build
-WORKDIR /app
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean package -Dmaven.test.skip
+# FROM maven:3.8.3-openjdk-17 AS build
+# WORKDIR /app
+# COPY pom.xml .
+# COPY src ./src
+# RUN mvn clean package -Dmaven.test.skip
 
 # Run spring boot in Docker
 FROM openjdk:17-oracle
