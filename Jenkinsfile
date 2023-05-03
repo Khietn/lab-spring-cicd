@@ -5,7 +5,7 @@ This allows you to control the exact version of Docker used.
 There is no interaction with the container system used by Kubernetes:
 docker.sock does not need to be mounted as in dood.groovy.
 May or may not work depending on cluster policy: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
-*/
+*/ 
 podTemplate(yaml: '''
               apiVersion: v1
               kind: Pod
