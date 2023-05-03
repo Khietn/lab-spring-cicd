@@ -41,34 +41,46 @@ podTemplate(yaml: '''
                     mountPath: /var/run
 ''') {
   node(POD_LABEL) {
-   checkout([$class: 'GitSCM',
-                      branches: [[name: '*/lab-k8s']],
-                      doGenerateSubmoduleConfigurations: false,
-                      userRemoteConfigs: [[credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git']]
-                    ])
-    container('maven') {
-        sh 'mvn -B -ntp clean package -DskipTests'
-    }
-    container('docker') {
-      stage('Build image') {
-          sh 'docker version'
-          sh 'docker build -t trada98/spring-boot:latest .'
-      }
-      
-      stage('Push Docker image to Docker Hub') {
-        withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-           try {
-              sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD'
-              sh 'docker push trada98/spring-boot:latest'
-            } catch (err) {
-              echo "Failed to push Docker image: ${err}"
-              currentBuild.result = 'FAILURE'
-            } finally {
-              sh 'docker logout'
-            }
-        }
-      }
-    }
+//    //git, branch,
+//    stage('Checkout SCM') {
+//     checkout([$class: 'GitSCM',
+//                       branches: [[name: '*/lab-k8s']],
+//                       doGenerateSubmoduleConfigurations: false,
+//                       userRemoteConfigs: [[credentialsId: 'khietn', url: 'https://github.com/Khietn/lab-spring-cicd.git']]
+//                     ])   
+//    }
+    
+//    //Container Maven
+//    container('maven') {
+//         sh 'mvn -B -ntp clean package -DskipTests'
+//    }
+//    //Container Docker
+//    container('docker') {
+     
+//      //Build image
+//      stage('Build image') {
+//          sh 'docker version'
+//          sh 'docker build -t trada98/spring-boot:latest .'
+//      }
+     
+//      //Push image
+//      stage('Push Docker image to Docker Hub') {
+//        withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+//           try {
+//              sh 'docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD'
+//              sh 'docker push trada98/spring-boot:latest'
+//            } catch (err) {
+//              echo "Failed to push Docker image: ${err}"
+//              currentBuild.result = 'FAILURE'
+//            } finally {
+//              sh 'docker logout'
+//            }
+//        }
+//      }//End stage push image
+     
+//     } //End container docker
+    
+    sh 'kubectl version'
   }
 }
  
