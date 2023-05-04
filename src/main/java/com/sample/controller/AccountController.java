@@ -1,18 +1,15 @@
 package com.sample.controller;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.sample.repository.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import com.sample.exceptions.AccountNotFoundException;
 import com.sample.model.Account;
@@ -23,6 +20,27 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AccountController {
 	List<Account> accounts;
+
+	@Autowired
+	private AccountRepository accountRepository;
+
+	@GetMapping(path="/all")
+	public @ResponseBody Iterable<Account> getAllUsers(){
+		return accountRepository.findAll();
+	}
+
+	@PostMapping(path="/insert")
+	public @ResponseBody Iterable<Account> insertUser(){
+		byte[] array = new byte[7]; // length is bounded by 7
+		new Random().nextBytes(array);
+		String generatedString = new String(array, Charset.forName("UTF-8"));
+
+		Account account = new Account();
+		account.setName(generatedString);
+		accountRepository.save(account);
+
+		return accountRepository.findAll();
+	}
 
 	public AccountController() {
 		accounts = new ArrayList<>();
