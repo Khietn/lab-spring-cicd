@@ -8,7 +8,7 @@ spring:
       ddl-auto: update
     show-sql: true
   datasource:
-    url: jdbc:mysql://13.213.73.144:3306/lab
+    url: jdbc:mysql://172.17.0.4:3306/lab
     username: khiet
     password: Khiet@123
     driver-class-name: com.mysql.cj.jdbc.Driver
