@@ -2,7 +2,7 @@
 FROM maven:3.8.3-openjdk-17 AS build
 COPY src /usr/src
 COPY pom.xml /usr
-RUN mvn clean package -Dmaven.test.skip
+RUN mvn -f /usr/pom.xml clean package -Dmaven.test.skip
 
 # Run spring boot in Docker
 FROM openjdk:17-oracle
