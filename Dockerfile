@@ -8,4 +8,4 @@ RUN mvn -f /usr/pom.xml clean package -Dmaven.test.skip
 FROM openjdk:17-oracle
 COPY --from=build /usr/target/springboot-0.1.jar /usr/app/app.jar
 EXPOSE 8081
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","/usr/app/app.jar"]
