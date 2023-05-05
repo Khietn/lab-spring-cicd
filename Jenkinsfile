@@ -9,7 +9,7 @@ node {
             // Get some code from a GitHub repository
             git url: 'https://github.com/Khietn/lab-spring-cicd.git',
                 credentialsId: 'khietn',
-                branch: '*/main'
+                branch: 'main'
 
 	      //sh "'${mvnHome}/bin/mvn' clean install"
          }
