@@ -14,8 +14,8 @@ node {
 	      //sh "'${mvnHome}/bin/mvn' clean install"
          }
         stage('Build docker') {
-            //dockerImage = docker.build("springboot-deploy:${env.BUILD_NUMBER}") //Docker build with docker cloud
-            sh "docker build -t springboot-deploy:${env.BUILD_NUMBER}"
+            dockerImage = docker.build("springboot-deploy:${env.BUILD_NUMBER}") //Docker build with docker cloud
+            //sh "docker build -t springboot-deploy:${env.BUILD_NUMBER}"
         }
         stage('Deploy docker'){
               echo "Docker Image Tag Name: ${dockerImageTag}"
