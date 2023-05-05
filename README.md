@@ -1,5 +1,4 @@
 # lab-spring-cicd
 
 
-test11
-t
+https://stackoverflow.com/questions/48093039/jenkins-github-hook-trigger-for-gitscm-polling
