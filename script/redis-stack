@@ -1,1 +1,19 @@
-docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
+docker run -d --name redis-stack --restart unless-stopped -v /local-data/:/data -p 8002:6379 -p 8001:8001  redis/redis-stack:latest
+
+docker exec -it e0c061a5700bfa400f8f24b redis-cli
+
+docker exec -it redis-stack redis-cli
+
+127.0.0.1:6379> ls
+(error) ERR unknown command `ls`, with args beginning with: 
+127.0.0.1:6379> AUTH PASSWORD
+(error) ERR AUTH <password> called without any password configured for the default user. Are you sure your configuration is correct?
+127.0.0.1:6379> CONFIG SET requirepass "Khiet@123"
+OK
+127.0.0.1:6379> AUTH mypass
+(error) WRONGPASS invalid username-password pair or user is disabled.
+
+127.0.0.1:6379> CONFIG SET requirepass "Khiet@1
+
+127.0.0.1:6379> AUTH Khiet@123
+OK
