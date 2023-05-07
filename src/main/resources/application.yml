@@ -5,9 +5,10 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   data:
+    #Change port to 8002 and IP, to running on Internet.
     redis:
       host: 172.17.0.5
-      port: 8002
+      port: 6379
       password: Khiet@123
       username: default
   application:
