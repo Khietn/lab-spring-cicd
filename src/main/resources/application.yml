@@ -1,6 +1,15 @@
 server:
   port: 8081
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  data:
+    redis:
+      host: 172.17.0.5
+      port: 8002
+      password: Khiet@123
+      username: default
   application:
     name: sample
   jpa:
@@ -8,7 +17,7 @@ spring:
       ddl-auto: update
     show-sql: true
   datasource:
-    url: jdbc:mysql://54.151.197.87:3306/lab
+    url: jdbc:mysql://172.17.0.4:3306/lab
     username: khiet
     password: Khiet@123
     driver-class-name: com.mysql.cj.jdbc.Driver
