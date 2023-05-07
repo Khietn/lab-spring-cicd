@@ -23,8 +23,6 @@ public class PersonController {
 
     @GetMapping(path="/person/insert")
     public @ResponseBody Person insertPerson(){
-        peopleRepository.deleteAll();
-
         String thorSays = "The Rabbit Is Correct, And Clearly The Smartest One Among You.";
 
         // Serendipity, 248 Seven Mile Beach Rd, Broken Head NSW 2481, Australia
