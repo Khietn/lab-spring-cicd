@@ -1,0 +1,28 @@
+docker run -it -d -p 3306:3306 --restart --restart unless-stopped --name=mysql 1d9c2219ff69
+
+docker logs mysql
+
+docker exec -it mysql mysql -u root -p
+
+Enter new password:
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'Khiet@123';
+
+ CREATE DATABASE lab;
+ USE lab;
+ 
+ CREATE TABLE Account (id int AUTO_INCREMENT, username varchar(256))
+
+--------------------
+CREATE USER 'khiet'@'localhost' IDENTIFIED BY 'Khiet@123';
+
+GRANT ALL PRIVILEGES ON *.* TO 'khiet'@'localhost' WITH GRANT OPTION;
+
+CREATE USER 'khiet'@'%' IDENTIFIED BY 'Khiet@123';
+
+GRANT ALL PRIVILEGES ON *.* TO 'khiet'@'%' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;
+
+https://stackoverflow.com/questions/1559955/host-xxx-xx-xxx-xxx-is-not-allowed-to-connect-to-this-mysql-server
+--------------------
