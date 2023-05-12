@@ -4,7 +4,7 @@ pipeline {
         stage('Build') {
           steps {
                 sshagent(credentials: ['ssh-private-key-master']) {
-                  sh 'kubectl get all'
+                  sh 'scp /var/jenkins_home/workspace/lab-pipeline@tmp/private_key_15569080139690158295.key cloud_user@52.77.224.23:/home/kubernetes-plugin'
                 }
             }
         }
