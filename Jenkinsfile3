@@ -2,8 +2,11 @@ pipeline {
     agent any
     stages {
         stage('Build') {
-            steps {
-               sh 'kubectl version'
+          steps {
+                sshagent(credentials: ['ssh-private-key-master']) {
+                  sh 'ssh cloud_user@52.77.224.23'
+                  sh 'kubectl get all'
+                }
             }
         }
     }
