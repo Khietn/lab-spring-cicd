@@ -4,6 +4,11 @@ pipeline {
         stage('Build') {
           steps {
                 sshagent(credentials: ['ssh-private-key-master']) {
+                  sh '''
+                      [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
+                      ssh-keyscan -t rsa,dsa 52.77.224.23 >> ~/.ssh/known_hosts
+                      ssh cloud_user@52.77.224.23 ...
+                  '''
                   sh 'ssh -o PreferredAuthentications=publickey -l cloud_user 52.77.224.23 whoami'
                 }
             }
