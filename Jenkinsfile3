@@ -4,7 +4,6 @@ pipeline {
         stage('Build') {
           steps {
                 sshagent(credentials: ['ssh-private-key-master']) {
-                  sh 'ssh -o StrictHostKeyChecking=no -l cloud_user 52.77.224.23 uname -a'
                   sh "ssh -o StrictHostKeyChecking=no -l cloud_user 52.77.224.23 'whoami'"
                 }
             }
