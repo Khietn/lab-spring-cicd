@@ -79,7 +79,7 @@ podTemplate(yaml: '''
      }//End stage push image
     } //End container docker
     
-    node{
+    node{ //start stage remote ssh
       def remote = [:]
       remote.name = 'cloud_user'
       remote.host = '18.141.177.214'
@@ -87,10 +87,10 @@ podTemplate(yaml: '''
       remote.password = 'Khiet@123'
       remote.allowAnyHosts = true
       stage('Remote SSH') {
-        writeFile file: 'labDeploy.yaml', text: 'ls -lrt'
-        sshScript remote: remote, script: "kubectl apply -f labDeploy.yaml"
+        sshPut remote: remote, from: 'labDeploy.yaml', into: '.'
+        sshScript remote: remote, command: "kubectl apply -f labDeploy.yaml"
      }
-    }
+    } //end stage
    
   }
 }
