@@ -88,7 +88,7 @@ podTemplate(yaml: '''
       remote.allowAnyHosts = true
       stage('Remote SSH') {
         sshPut remote: remote, from: 'labDeploy.yaml', into: '.'
-        sshScript remote: remote, command: "kubectl apply -f labDeploy.yaml"
+        sshCommand remote: remote, command: "kubectl apply -f labDeploy.yaml"
      }
     } //end stage
    
