@@ -4,7 +4,7 @@ pipeline {
         stage('Build') {
           steps {
                 sshagent(credentials: ['ssh-private-key-master']) {
-                  sh 'ssh -o PreferredAuthentications=publickey -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -l cloud_user 52.77.224.23 -p 22 whoami'
+                  sh 'ssh -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -l cloud_user 52.77.224.23 -p 22 whoami'
                 }
             }
         }
