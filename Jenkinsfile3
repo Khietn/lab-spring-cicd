@@ -3,9 +3,15 @@ pipeline {
     stages {
         stage('Build') {
           steps {
-                sshagent(credentials: ['ssh-private-key-master']) {
-                  sh 'ssh -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -l cloud_user 18.141.177.214 -p 22 whoami'
-                }
+                  def remote = [:]
+                  remote.name = 'cloud_user'
+                  remote.host = '18.141.177.214'
+                  remote.user = 'cloud_user'
+                  remote.password = 'Khiet@123'
+                  remote.allowAnyHosts = true
+                  stage('Remote SSH') {
+                    sshCommand remote: remote, command: "ls -lrt"
+                  }
             }
         }
     }
