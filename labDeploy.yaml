@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,20 +19,21 @@ spec:
         app: demo
     spec:
       containers:
-      - image: docker.io/trada98/spring-boot
-        name: spring-boot
-        resources: {}
-        ports:
-          - name: httpport
-            containerPort: 8081
-        volumesMounts:
+        - image: docker.io/trada98/spring-boot
+          name: spring-boot
+          resources: {}
+          ports:
+            - name: httpport
+              containerPort: 8081
+          volumeMounts:
+            - name: spring-volume
+              mountPath: /spring-boot/log
+      volumes:
         - name: spring-volume
-          mountPath: /spring-boot/log
-     volumes:
-     - name: spring-volume
-       hostPath:
-         path: /data/spring
+          hostPath:
+            path: /data/spring
 status: {}
+
 ---
 apiVersion: v1
 kind: Service
@@ -42,11 +44,11 @@ metadata:
   name: demo
 spec:
   ports:
-  - name: httpport
-    port: 8081
-    protocol: TCP
-    targetPort: 8081
-    nodePort: 30083
+    - name: httpport
+      port: 8081
+      protocol: TCP
+      targetPort: 8081
+      nodePort: 30083
   selector:
     app: demo
   type: NodePort
