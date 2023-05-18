@@ -82,7 +82,7 @@ podTemplate(yaml: '''
     //start stage remote ssh
       def remote = [:]
       remote.name = 'cloud_user'
-      remote.host = '13.250.43.121' //Change this line. 
+      remote.host = '412ae28a3b17452f86ca2ea723ed757d1d.mylabserver.com' //Change this line. 
       remote.user = 'cloud_user'
       remote.password = 'Khiet@123'
       remote.allowAnyHosts = true
