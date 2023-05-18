@@ -2,7 +2,7 @@
 
     <!-- Define properties -->
     <timestamp key="date" datePattern="yyyyMMdd"></timestamp>
-    <property name="PATH_INFO" value="home/log" />
+    <property name="PATH_INFO" value="/home/log" />
 
     <!-- Define the appenders -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
