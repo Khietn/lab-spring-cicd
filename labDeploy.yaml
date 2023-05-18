@@ -27,7 +27,7 @@ spec:
               containerPort: 8081
           volumeMounts:
             - name: spring-volume
-              mountPath: /spring-boot/log
+              mountPath: spring-boot/log
       volumes:
         - name: spring-volume
           hostPath:
