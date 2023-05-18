@@ -24,6 +24,13 @@ spec:
         ports:
           - name: httpport
             containerPort: 8081
+        volumesMounts:
+        - name: spring-volume
+          mountPath: /spring-boot/log
+     volumes:
+     - name: spring-volume
+       hostPath:
+         path: /data/spring
 status: {}
 ---
 apiVersion: v1
