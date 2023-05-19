@@ -26,15 +26,15 @@ spec:
             - name: httpport
               containerPort: 8081
           volumeMounts:
-            #- name: spring-volume
-            #  mountPath: /home/log
+            - name: spring-volume
+              mountPath: /home/log
             - name: pv-storage
               mountPath: /home/log
       volumes:
-        #- name: spring-volume #volume
-        #  hostPath:
-        #    path: /data/spring
-        - name: pv-storage
+        - name: spring-volume #volume
+          hostPath:
+            path: /data/spring
+        - name: pv-storage #volume claim
           persistentVolumeClaim:
             claimName: my-pvc #metadataname in script/spring-pv.yaml
 status: {}
