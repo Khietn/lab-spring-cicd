@@ -28,29 +28,13 @@ spec:
           volumeMounts:
             - name: spring-volume
               mountPath: /home/log
+            - name: my-pv
+              mounPath: /home/log
       volumes:
-        - name: spring-volume
+        - name: spring-volume #volume
           hostPath:
             path: /data/spring
+        - name: pv-storage
+          persistentVolumeClaim:
+            claimName: my-pv #metadataname in script/spring-pv.yaml
 status: {}
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  creationTimestamp: null
-  labels:
-    app: demo
-  name: demo
-spec:
-  ports:
-    - name: httpport
-      port: 8081
-      protocol: TCP
-      targetPort: 8081
-      nodePort: 30083
-  selector:
-    app: demo
-  type: NodePort
-status:
-  loadBalancer: {}
