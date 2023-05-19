@@ -1,1 +1,13 @@
-
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: my-pv
+spec:
+  storageClassName: localdisk #refencing to class name localdisk in storageclass.yaml
+  persistentVolumeReclaimPolicy: Recycle 
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /var/output
