@@ -29,7 +29,7 @@ spec:
             - name: spring-volume
               mountPath: /home/log
             - name: my-pv
-              mounPath: /home/log
+              mountPath: /home/log
       volumes:
         - name: spring-volume #volume
           hostPath:
