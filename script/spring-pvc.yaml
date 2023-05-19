@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: my-pv
+  name: my-pvc
 spec:
   storageClassName: localdisk #refencing to class name localdisk in storageclass.yaml
   accessModes:
