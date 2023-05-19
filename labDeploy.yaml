@@ -28,7 +28,7 @@ spec:
           volumeMounts:
             - name: spring-volume
               mountPath: /home/log
-            - name: my-pv
+            - name: pv-storage
               mountPath: /home/log
       volumes:
         - name: spring-volume #volume
@@ -36,5 +36,5 @@ spec:
             path: /data/spring
         - name: pv-storage
           persistentVolumeClaim:
-            claimName: my-pv #metadataname in script/spring-pv.yaml
+            claimName: my-pvc #metadataname in script/spring-pv.yaml
 status: {}
