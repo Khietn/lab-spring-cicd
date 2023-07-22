@@ -1,0 +1,27 @@
+<configuration>
+
+    <!-- Define properties -->
+    <timestamp key="date" datePattern="yyyyMMdd"></timestamp>
+    <property name="PATH_INFO" value="/home/log" />
+
+    <!-- Define the appenders -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_INFO" class="ch.qos.logback.core.FileAppender">
+        <file>${PATH_INFO}/${date}.log</file>
+        <encoder>
+            <pattern>%date [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Define the root logger -->
+    <root level="info">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE_INFO" />
+    </root>
+
+</configuration>

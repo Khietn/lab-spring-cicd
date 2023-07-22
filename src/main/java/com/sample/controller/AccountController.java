@@ -19,6 +19,8 @@ import com.sample.model.Account;
 
 import lombok.extern.slf4j.Slf4j;
 
+import javax.validation.Valid;
+
 @RestController
 @Slf4j
 public class AccountController {
@@ -36,14 +38,14 @@ public class AccountController {
 		accounts.add(new Account(8, "TriTo"));
 	}
 
-	@GetMapping(value = "")
+	@GetMapping(value = "/")
 	public String index() throws AccountNotFoundException {
 		return "Welcome to lab.";
 	}
 
 	
 	@GetMapping(value = "/findById/{id}")
-	public Account findById(@PathVariable("id") Integer id) throws AccountNotFoundException {
+	public Account findById(@PathVariable("id") @Valid Integer id) throws AccountNotFoundException {
 		log.info(String.format("Account.findByNumber(%s)", id));
 		return accounts.stream().filter(it -> it.getId().intValue() == id.intValue()).findFirst()
 				.orElseThrow(() -> new AccountNotFoundException("id: " + id));

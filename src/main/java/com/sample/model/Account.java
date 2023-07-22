@@ -8,7 +8,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account {
-	
+
+	@Override
+	public String toString() {
+		return "Account{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				'}';
+	}
+
 	public Account(int i, String string) {
 		this.id = i;
 		this.name = string;
